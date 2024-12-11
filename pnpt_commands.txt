@@ -1,0 +1,65 @@
+netdiscover -r 192.168.1.0/24 # we are using arp to find all the connected machines on this network.
+
+# nmap network mapper
+nmap -sS stealth scan but it is still not stealth at all
+
+# three way handshake SYN SYNACK SYN
+
+# SYN SYNACK RST
+
+# T1-5 5 is too fast maybe miss something, -T4 is good '-p-' scan all 65535 ports, '-p' scan only top 1000 ports
+# -A means catch everything all switches, fingerprinting, open ports, OS, version etc...
+
+# nmap -T4 -A -p- 192.168.1.66
+
+# nmap --help - interesting switches like -Pn -sn etc
+
+# We need to find what ports are open and what services are running on this machine. What applications are running? What application versions are? Any vulnerable application, IIS, Nginx (webserver), database etc
+
+# If you found port 80 and 443, just open the browser and goto the web page. what it is doing or showing? If you found a default page and doing nothing, yes it is a finding add it to your notes, note the time date and all the information that you found. 
+# what application is running apache, nginx etc? look for any information disclosure, look for the server/machine name is exposed
+# also you can look at he page source code to see any comments or any embedded keys in the web page, anything disclosed in the comments just look for it ._.
+
+# let's do a vulnerability scanning for the web pages such as nikto ffuf
+
+# nikto -h http://192.168.1.66 or https://192.168.1.66 - if it does not picking the ssl https go with http
+# the nikto output will provide much more information about the underhood applications running on this machine
+
+# look for remote code exec, remote buffer overflow etc.
+
+# look for the directory busting that nikto perform for us and found some different pages on this web server
+
+# there is another tool for directory busting on web server such as dirbuster, gobuster, dirb - by the way DirBuster has a GUI 
+
+# from the GUI select the target http://192.168.1.66:80/ - select the thread go faster - now select the file which includes different directories/files to be looked for '/usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
+# if dirbuster could not find with the small file then try the medium etc... you can specify the file format to look for for example if it is apache then we can look for .php, for IIS .asp or .aspx etc.
+
+# msfconsole
+# 	exploites - auxiliary modules - post 
+#	payloads - encoders - nops 
+# msf> use auxiliary/scanner/smb/smb_version 
+# msf auxiliary/scanner/smb/smb_version> options 
+# set the RHOSTS and run it to grab the version number and add it to your notes, because the more information you have the wider the attack vector willbe
+
+# we could utilise the smbclient tool from command line
+
+# smbclient -L \\\\192.168.110.55\\
+# smbclient \\\192.168.110.55\\admin$
+ 
+once you have found your all vulnerabilities, search with google and if you don't have google available you could utilise searchsploit within msfconsole
+
+once you have a shell on a box perform some basic enumeration
+
+# ip a
+# ifconfig
+# ip route
+# sudo -l
+#cat /etc/passwd
+# cat /etc/shadow
+
+
+C:\> ipconfig /all
+C:\> route PRTIN
+
+
+
